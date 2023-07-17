@@ -34,4 +34,3 @@ class Example(Model):
 class Answer(Model):
     output = CharField(max_length=255)
     example = ForeignKey('apps.Example', CASCADE)
-    runtime = CharField(max_length=25)

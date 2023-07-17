@@ -4,3 +4,6 @@ mig:
 
 admin:
 	python3 manage.py createsuperuser
+
+run:
+	python3 manage.py runserver

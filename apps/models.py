@@ -1,5 +1,6 @@
 from django.db import models
-from django.db.models import Model, TextChoices, CharField, IntegerField, ForeignKey, CASCADE, BooleanField
+from django.db.models import Model, TextChoices, CharField, IntegerField, ForeignKey, CASCADE, BooleanField, \
+    DateTimeField
 
 
 class Category(Model):
@@ -25,10 +26,10 @@ class Problems(Model):
 
 
 class Example(Model):
-    input = CharField(max_length=255)
     output = CharField(max_length=255, blank=True, null=True)
     explanation = CharField(max_length=255, blank=True, null=True)
-    target = CharField(max_length=255, blank=True, null=True)
+    created_at = DateTimeField(auto_now_add=True)
+    updated_at = DateTimeField(auto_now=True)
 
 
 class Answer(Model):
@@ -39,3 +40,8 @@ class Answer(Model):
 class Submission(Model):
     problems = ForeignKey('apps.Problems', CASCADE)
 
+
+class InputExample(Model):
+    example = ForeignKey('apps.Example', CASCADE)
+    variable_name = CharField(max_length=255)
+    variable_value = CharField(max_length=255)

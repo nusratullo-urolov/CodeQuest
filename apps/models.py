@@ -5,6 +5,9 @@ from django.db.models import Model, TextChoices, CharField, IntegerField, Foreig
 class Category(Model):
     title = CharField(max_length=255)
 
+    def __str__(self):
+        return self.title
+
 
 class Problems(Model):
     class Difficulty(TextChoices):
@@ -18,6 +21,8 @@ class Problems(Model):
     acceptance = IntegerField()
     category = ForeignKey('apps.Category', CASCADE)
 
+    def __str__(self):
+        return self.title
 
 class Example(Model):
     input = CharField(max_length=255)

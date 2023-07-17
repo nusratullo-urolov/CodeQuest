@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Model, TextChoices, CharField, IntegerField, ForeignKey, CASCADE
+from django.db.models import Model, TextChoices, CharField, IntegerField, ForeignKey, CASCADE, BooleanField
 
 
 class Category(Model):
@@ -18,7 +18,6 @@ class Problems(Model):
     title = CharField(max_length=255)
     description = CharField(max_length=500)
     type = CharField(max_length=6, choices=Difficulty.choices)
-    acceptance = IntegerField()
     category = ForeignKey('apps.Category', CASCADE)
 
     def __str__(self):
@@ -35,3 +34,8 @@ class Example(Model):
 class Answer(Model):
     output = CharField(max_length=255)
     example = ForeignKey('apps.Example', CASCADE)
+
+
+class Submission(Model):
+    problems = ForeignKey('apps.Problems', CASCADE)
+

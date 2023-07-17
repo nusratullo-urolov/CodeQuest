@@ -24,10 +24,11 @@ class Problems(Model):
     def __str__(self):
         return self.title
 
+
 class Example(Model):
     input = CharField(max_length=255)
-    output = CharField(max_length=255, null=True)
-    explanation = CharField(max_length=255, null=True)
+    output = CharField(max_length=255, blank=True, null=True)
+    explanation = CharField(max_length=255, blank=True, null=True)
     target = CharField(max_length=255, null=True)
 
 

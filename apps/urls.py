@@ -1,10 +1,10 @@
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
 
-from apps.views import ProblemsView
+from apps.views import home, categories, problems, solutions
 
-router = DefaultRouter()
-router.register('problems', ProblemsView, 'problems')
 urlpatterns = [
-    path('', include(router.urls))
+    path('solution/',solutions,name='solution'),
+    path('categories/', categories, name='categories'),
+    path('problems/<int:id>',problems,name='problems'),
+    path('', home, name='home')
 ]

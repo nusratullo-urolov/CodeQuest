@@ -30,12 +30,11 @@ class Example(Model):
     explanation = CharField(max_length=255, blank=True, null=True)
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
-
+    problems = ForeignKey('apps.Problems',CASCADE)
 
 class Answer(Model):
     output = CharField(max_length=255)
-    example = ForeignKey('apps.Example', CASCADE)
-
+    problems = ForeignKey('apps.Problems',CASCADE)
 
 class Submission(Model):
     problems = ForeignKey('apps.Problems', CASCADE)

@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_list_or_404, get_object_or_404
+from django.shortcuts import render, get_list_or_404
 
 from apps.models import Category, Problems
 
@@ -36,4 +36,8 @@ def problem(request, title):
             'result': result
         }
         return render(request, 'solution.html', context=context)
-    return render(request, 'solution.html',context={'problem' : problem})
+    return render(request, 'solution.html', context={'problem': problem})
+
+
+def about(request):
+    return render(request, 'about.html')

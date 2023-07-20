@@ -17,7 +17,7 @@ class Problems(Model):
         MEDIUM = 'medium', 'Medium',
         HARD = 'hard', 'Hard'
 
-    title = CharField(max_length=255,unique=True)
+    title = CharField(max_length=255, unique=True)
     description = CharField(max_length=500)
     # slug = SlugField(unique=True)
     type = CharField(max_length=6, choices=Difficulty.choices)

@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models import Model, TextChoices, CharField, IntegerField, ForeignKey, CASCADE, BooleanField, \
-    DateTimeField, SlugField, OneToOneField
+    DateTimeField, SlugField, OneToOneField, JSONField
 from django.utils.text import slugify
 
 
@@ -17,11 +17,16 @@ class Problems(Model):
         MEDIUM = 'medium', 'Medium',
         HARD = 'hard', 'Hard'
 
-    title = CharField(max_length=255,unique=True)
+    title = CharField(max_length=255, unique=True)
     description = CharField(max_length=500)
     # slug = SlugField(unique=True)
     type = CharField(max_length=6, choices=Difficulty.choices)
     category = ForeignKey('apps.Category', CASCADE)
+    input = JSONField()
+    output = CharField(max_length=255)
+    explanation = CharField(max_length=255, null=True, blank=True)
+    created_at = DateTimeField(auto_now_add=True)
+    updated_at = DateTimeField(auto_now=True)
 
     # def save(self,*args,**kwargs):
     #     if not self.slug:
@@ -34,14 +39,6 @@ class Problems(Model):
         return self.title
 
 
-class Example(Model):
-    output = CharField(max_length=255, blank=True, null=True)
-    explanation = CharField(max_length=255, blank=True, null=True)
-    created_at = DateTimeField(auto_now_add=True)
-    updated_at = DateTimeField(auto_now=True)
-    problems = OneToOneField('apps.Problems', CASCADE)
-
-
 class Answer(Model):
     output = CharField(max_length=255)
     problems = OneToOneField('apps.Problems', CASCADE)
@@ -49,9 +46,3 @@ class Answer(Model):
 
 class Submission(Model):
     problems = OneToOneField('apps.Problems', CASCADE)
-
-
-class InputExample(Model):
-    example = OneToOneField('apps.Example', CASCADE)
-    variable_name = CharField(max_length=255)
-    variable_value = CharField(max_length=255)

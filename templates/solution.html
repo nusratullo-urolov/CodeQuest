@@ -19,9 +19,42 @@
 <meta name="twitter:title" content="A+B">
     <link rel='stylesheet' href='{% static 'css/themes/solutions.css' %}'><meta name='theme-color' content='#FFF'>
 
-    <style >[wire\:loading], [wire\:loading\.delay], [wire\:loading\.inline-block], [wire\:loading\.inline], [wire\:loading\.block], [wire\:loading\.flex], [wire\:loading\.table], [wire\:loading\.grid], [wire\:loading\.inline-flex] {display: none;}[wire\:loading\.delay\.shortest], [wire\:loading\.delay\.shorter], [wire\:loading\.delay\.short], [wire\:loading\.delay\.long], [wire\:loading\.delay\.longer], [wire\:loading\.delay\.longest] {display:none;}[wire\:offline] {display: none;}[wire\:dirty]:not(textarea):not(input):not(select) {display: none;}input:-webkit-autofill, select:-webkit-autofill, textarea:-webkit-autofill {animation-duration: 50000s;animation-name: livewireautofill;}@keyframes livewireautofill { from {} }</style>
+    <style >[wire\:loading], [wire\:loading\.delay], [wire\:loading\.inline-block], [wire\:loading\.inline], [wire\:loading\.block], [wire\:loading\.flex], [wire\:loading\.table], [wire\:loading\.grid], [wire\:loading\.inline-flex] {display: none;}[wire\:loading\.delay\.shortest], [wire\:loading\.delay\.shorter], [wire\:loading\.delay\.short], [wire\:loading\.delay\.long], [wire\:loading\.delay\.longer], [wire\:loading\.delay\.longest] {display:none;}[wire\:offline] {display: none;}[wire\:dirty]:not(textarea):not(input):not(select) {display: none;}input:-webkit-autofill, select:-webkit-autofill, textarea:-webkit-autofill {animation-duration: 50000s;animation-name: livewireautofill;}@keyframes livewireautofill { from {} }
 
+            body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
+        #console-container {
+            width: 930px;
+
+            max-width: 1800px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #code-editor {
+
+            width: 100%;
+            height: 300px;
+            background-color: black;
+            color: white;
+        }
+
+        #console-output {
+            min-height: 200px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            padding: 10px;
+            white-space: pre-wrap;
+        }
+        </style>
     <script>
     window._auth = true;
     </script>
@@ -29,110 +62,10 @@
 <body>
 <div id="app">
     <div class="container my-3">
-        <div class="d-none d-sm-block">
-                <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
 
-                                    <li class="breadcrumb-item"><a href="https://robocontest.uz">Bosh sahifa</a></li>
-
-
-                                    <li class="breadcrumb-item"><a href="https://robocontest.uz/tasks">Masalalar</a></li>
-
-
-                                    <li class="breadcrumb-item active" aria-current="page">A+B</li>
-
-                    </ol>
-    </nav>
-
-        </div>
 
         <div class="form-row">
-            <div class="col-12 col-xl-2 col-md-3 col-sm-4 mb-3">
-                <aside class="sidebar">
-                    <section>
-    <span class="d-inline d-sm-none pull-right ml-1" id='message'><i class="fa fa-bars"></i></span>
-    <h4 class="robocontest">RoboContest</h4>
 
-</section>
-
-<nav id="sidebar" class="d-none d-sm-block mt-2">
-            <div class="">
-            <a href="https://robocontest.uz/profile/nusrat" class="btn btn-link text-decoration-none"
-               style="margin-left: -3px;">
-                <img class="rounded-circle" src="https://robocontest.uz/assets/img/no-avatar.jpg"
-                     width="32px"><b>&nbsp&nbspnusrat</b>
-            </a>
-        </div>
-
-        <div class="">
-
-            <a href="https://robocontest.uz/profile/nusrat/notifications" class="btn btn-link text-decoration-none">
-                <i class="fas fa-bell"></i> Bildirishnomalar
-                            </a>
-        </div>
-        <div class="">
-        <a href="https://robocontest.uz/users" class="btn btn-link text-decoration-none">
-            <i class="fa fa-user"></i> Foydalanuvchilar        </a>
-    </div>
-    <div class=" active ">
-        <a href="https://robocontest.uz/tasks" class="btn btn-link text-decoration-none">
-            <i class="fas fa-book"></i> Masalalar        </a>
-    </div>
-    <div class="">
-        <a href="https://robocontest.uz/attempts" class="btn btn-link text-decoration-none">
-            <i class="fab fa-strava"></i> Urinishlar        </a>
-    </div>
-
-
-
-
-
-    <div class="">
-        <a href="https://robocontest.uz/olympiads" class="btn btn-link text-decoration-none">
-            <i class="fas fa-medal"></i> Olimpiadalar
-                            <span class="badge badge-pill badge-danger">2</span>
-                    </a>
-    </div>
-    <div class="">
-        <a href="https://robocontest.uz/quizzes" class="btn btn-link text-decoration-none">
-            <i class="fas fa-subscript"></i> Testlar        </a>
-    </div>
-    <div class="">
-        <a href="https://robocontest.uz/courses" class="btn btn-link text-decoration-none">
-            <i class="fas fa-graduation-cap"></i> Kurslar        </a>
-    </div>
-    <div class="">
-        <a href="https://robocontest.uz/blog" class="btn btn-link text-decoration-none">
-            <i class="fas fa-pen-alt"></i> Bloglar        </a>
-    </div>
-    <div class="">
-        <a href="https://robocontest.uz/system" class="btn btn-link text-decoration-none">
-            <i class="fa fa-info-circle"></i> Tizimda ishlash        </a>
-    </div>
-    <hr>
-    <div>
-        <a href="https://robocontest.uz/team" class="btn btn-link text-decoration-none">
-            <i class="fa fa-code"></i> Bizning jamoa        </a>
-    </div>
-
-    <div>
-        <a href="https://t.me/robocontest" class="btn btn-link text-decoration-none" target="_blank">
-            <i class="fab fa-telegram"></i> Telegram kanalimiz        </a>
-    </div>
-
-
-    <hr>
-            <div class="">
-            <a href="#" class="btn btn-link text-decoration-none" id="logout">
-                <i class="fa fa-lock"></i> Chiqish            </a>
-
-            <form id="logout-form" action="https://robocontest.uz/logout" method="POST" style="display: none;">
-                <input type="hidden" name="_token" value="IYMLbnfnr9OhoW1O8LjClMxiR5K0Y2PAoSwZPblU">            </form>
-        </div>
-        </nav>
-
-                </aside>
-            </div>
 
             <div class="col-12 col-xl-10 col-md-9 col-sm-8">
                 <header class="d-sm-none d-block">
@@ -198,31 +131,27 @@
         </h1>
         <div class="card-body p-0">
 
-        <hr>
 
         <div class="px-3">
 
 
-            <h2 class="mt-3">A+B</h2>
+            <h2 class="mt-3">{{ problem.title }}</h2>
             <div class="card-text task-contents">
-                <p>A va B butun sonlari yig&#39;indisini hisoblash kerak bo&#39;ladi</p>
+                <p>{{ problem.description }}</p>
             </div>
         </div>
-        <hr>
         <div class="px-3">
-            <div class="h5 text-info" id="input_info">Kiruvchi ma'lumotlar:</div>
+            <div class="h5 text-info" id="input_info">Input</div>
             <div class="card-text task-contents">
-                <p>Kirish oqimida ikkita butun son kiritiladi, sonlar 10<sup>9</sup>dan kam</p>
+                <p>{{ problem.example.inputexample.variable_name }} = {{ problem.example.inputexample.variable_value }}</p>
             </div>
         </div>
-        <hr>
         <div class="px-3">
-            <div class="h5 text-info" id="output_info">Chiquvchi ma'lumotlar:</div>
+            <div class="h5 text-info" id="output_info">Output</div>
             <div class="card-text task-contents">
-                <p>Chiqish oqimida berilgan ikki sonni yig&#39;indisini chiqarish kerak bo&#39;ladi</p>
+                <p>{{ problem.example.output }}</p>
             </div>
         </div>
-        <hr>
         <div class="px-3 h5 text-info">Misollar</div>
         <div class="table-responsive px-3">
             <table class="table table-bordered table-hover monotext notranslate">
@@ -279,34 +208,91 @@
 
 
             </div>
-                </main>
             </div>
+                </main>
 
+            </div>
+            <div>
+    <div id="console-container">
+        <form action="{% url 'problem' problem.title %}" method="post">
+            {% csrf_token %}
+        <textarea name="example" id="code-editor" style="font-size: 20px">def function ({{ problem.example.inputexample.variable_name }}) -> None</textarea>
+        <input style="margin-left: 95%" type="submit" value="Run" >
+
+        </form>
+    </div>
+    <pre id="console-output"> <h1>{{ result }}</h1></pre>
+
+</div>
         </div>
     </div>
 </div>
+
+
+
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#<head>#}
+{#    <title>Interactive Console</title>#}
+{#    <link rel="stylesheet" href="https://codemirror.net/lib/codemirror.css">#}
+{#    <script src="https://codemirror.net/lib/codemirror.js"></script>#}
+{#    <script src="https://codemirror.net/mode/javascript/javascript.js"></script>#}
+
+
+
+{#</head>#}
+{#<body>#}
+
+
+    <script>
+        const codeEditor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
+            mode: 'javascript',
+            theme: 'default',
+            lineNumbers: true,
+        });
+
+        function executeCode() {
+            const code = codeEditor.getValue();
+            try {
+                const result = eval(code);
+                displayOutput(result);
+            } catch (error) {
+                displayOutput(error);
+            }
+        }
+
+        function displayOutput(output) {
+            const consoleOutput = document.getElementById('console-output');
+            consoleOutput.textContent = String(output);
+        }
+    </script>
+{#</body>#}
+{#</html>#}
+
+
+
 
 <div id="snow"></div>
 
 <link media="all" type="text/css" rel="stylesheet" href="{% static 'css/themes/codemirror.css' %}"/>
 <link media="all" type="text/css" rel="stylesheet" href="{% static 'css/themes/monokai.css' %}"/>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.15.3/katex.min.css"
+<link rel="stylesheet" href="{% static 'css/ajax/libs/KaTeX/0.15.3/katex.min.css' %}"
       integrity="sha512-07YhC3P4/vS5HdgGuNAAeIxb5ee//efgRNo5AGdMtqFBUPYOdQG/sDK0Nl5qNq94kdEk/Pvu8pmN4GYUeucUkw=="
       crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.15.3/katex.min.js"
+<script src="{% static 'js/ajax/libs/KaTeX/0.15.3/katex.min.js' %}"
         integrity="sha512-aMDiFsrEV3KzAn9EHwyBRS7y1APjZWt/Z/73ukLN2Ca2KcGGzlOQFQSnfOdnEcehpwMaQ8edlDB/0cMX2GsHbg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.15.3/contrib/auto-render.min.js"
+<script src="{% static 'js/ajax/libs/KaTeX/0.15.3/contrib/auto-render.min.js' %}"
         integrity="sha512-ZA/RPrAo88DlwRnnoNVqKINnQNcWERzRK03PDaA4GIJiVZvGFIWQbdWCsUebMZfkWohnfngsDjXzU6PokO4jGw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" onload="renderMathInElement(document.body);"></script>
 
 <!-- Scripts -->
-<script src="/js/vue-app.js?id=79abe5d8c6648befc6239c903505680d"></script>
-<script src="/js/codemirror.js?id=f58439ed2248f6a7512ac10ad253dfb6"></script>
-<script src="/vendor/livewire/livewire.js?id=90730a3b0e7144480175" data-turbo-eval="false" data-turbolinks-eval="false" ></script><script data-turbo-eval="false" data-turbolinks-eval="false" >window.livewire = new Livewire();window.Livewire = window.livewire;window.livewire_app_url = '';window.livewire_token = 'IYMLbnfnr9OhoW1O8LjClMxiR5K0Y2PAoSwZPblU';window.deferLoadingAlpine = function (callback) {window.addEventListener('livewire:load', function () {callback();});};let started = false;window.addEventListener('alpine:initializing', function () {if (! started) {window.livewire.start();started = true;}});document.addEventListener("DOMContentLoaded", function () {if (! started) {window.livewire.start();started = true;}});</script>
+<script src="{% static 'js/vue.js' %}"></script>
+<script src="{% static 'js/codemirror.js' %}"></script>
+<script src="{% static 'js/vendor.js' %}" data-turbo-eval="false" data-turbolinks-eval="false" ></script><script data-turbo-eval="false" data-turbolinks-eval="false" >window.livewire = new Livewire();window.Livewire = window.livewire;window.livewire_app_url = '';window.livewire_token = 'IYMLbnfnr9OhoW1O8LjClMxiR5K0Y2PAoSwZPblU';window.deferLoadingAlpine = function (callback) {window.addEventListener('livewire:load', function () {callback();});};let started = false;window.addEventListener('alpine:initializing', function () {if (! started) {window.livewire.start();started = true;}});document.addEventListener("DOMContentLoaded", function () {if (! started) {window.livewire.start();started = true;}});</script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-63170220-4"></script>

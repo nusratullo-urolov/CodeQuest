@@ -689,7 +689,7 @@
                                                 data-attr1="/dashboard" data-automation="logo-link"
                                                 href="/dashboard"><img id="feed-intro" class="logo-img-small"
                                                                        src="https://hrcdn.net/fcore/assets/work/header/hackerrank_logo-21e2867566.svg"
-                                                                       alt="HackerRank Home"/><h4>HackerRank</h4></a>
+                                                                       alt="HackerRank Home"/><h4>CodeQuest</h4></a>
                                         </li>
                                         <div class="nav-logo-separator">|</div>
                                         <li class="nav-link-item"><a class="nav-link active"
@@ -883,7 +883,7 @@
                                                                           class="topic-link" href="{% url 'problems' id=category.id %}">
                                                     <div class="topic-item bold">
                                                         <div class="topic-name" data-automation="algorithms">
-                                                            {{ category.title }}
+                                                            {{ category.title }} {{ category.problems_set.count }}
                                                         </div>
                                                     </div>
                                                 </a></li>

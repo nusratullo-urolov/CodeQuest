@@ -11,7 +11,7 @@ class CategoryModelAdmin(ModelAdmin):
 
 @admin.register(Problems)
 class CategoryModelAdmin(ModelAdmin):
-    pass
+    exclude = ('slug',)
 
 
 class InputExampleModelAdmin(StackedInline):

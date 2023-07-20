@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_list_or_404
+from django.shortcuts import render, get_list_or_404, get_object_or_404
 
 from apps.models import Category, Problems
 
@@ -23,5 +23,17 @@ def problems(request, id):
     return render(request, 'problems.html', context)
 
 
-def solutions(request):
-    return render(request,'solution.html')
+def problem(request, title):
+    problem = get_object_or_404(Problems, title=title)
+    if request.method == 'POST':
+        post = request.POST['example']
+        result = post.split("(")[1].split(")")[0]
+        try:
+            result = eval(result)
+        except Exception as e:
+            result = e
+        context = {
+            'result': result
+        }
+        return render(request, 'solution.html', context=context)
+    return render(request, 'solution.html',context={'problem' : problem})

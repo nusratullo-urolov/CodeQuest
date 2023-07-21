@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin, StackedInline
 
-from apps.models import Category, Example, Answer, Problems, InputExample
+from apps.models import Category, Answer, Problems
 
 
 @admin.register(Category)
@@ -13,15 +13,6 @@ class CategoryModelAdmin(ModelAdmin):
 class CategoryModelAdmin(ModelAdmin):
     exclude = ('slug',)
 
-
-class InputExampleModelAdmin(StackedInline):
-    model = InputExample
-    max_num = 3
-
-
-@admin.register(Example)
-class CategoryModelAdmin(ModelAdmin):
-    inlines = [InputExampleModelAdmin]
 
 
 @admin.register(Answer)

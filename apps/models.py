@@ -1,7 +1,24 @@
+import json
+
+from django.contrib.postgres.fields import ArrayField
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Model, TextChoices, CharField, IntegerField, ForeignKey, CASCADE, BooleanField, \
-    DateTimeField, SlugField, OneToOneField
+    DateTimeField, SlugField, OneToOneField, JSONField
 from django.utils.text import slugify
+
+
+
+# class CustomJsonField(JSONField):
+#     def to_python(self, value):
+#         if value is None or isinstance(value, dict):
+#             return value
+#
+#         try:
+#             return json.loads(value)
+#         except (ValueError, TypeError):
+#             raise ValidationError('Invalid Json object')
+
 
 
 class Category(Model):
@@ -17,29 +34,18 @@ class Problems(Model):
         MEDIUM = 'medium', 'Medium',
         HARD = 'hard', 'Hard'
 
-    title = CharField(max_length=255,unique=True)
+    title = CharField(max_length=255, unique=True)
     description = CharField(max_length=500)
-    # slug = SlugField(unique=True)
     type = CharField(max_length=6, choices=Difficulty.choices)
     category = ForeignKey('apps.Category', CASCADE)
-
-    # def save(self,*args,**kwargs):
-    #     if not self.slug:
-    #         self.slug = slugify(self.title)
-    #         while Problems.objects.filter(slug=self.slug).exists():
-    #             self.slug = f'{self.slug}-1'
-    #     return super().save(*args,**kwargs)
-
-    def __str__(self):
-        return self.title
-
-
-class Example(Model):
-    output = CharField(max_length=255, blank=True, null=True)
+    # input = ArrayField(CustomJsonField())
+    output = CharField(max_length=255)
     explanation = CharField(max_length=255, blank=True, null=True)
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
-    problems = OneToOneField('apps.Problems', CASCADE)
+
+    def __str__(self):
+        return self.title
 
 
 class Answer(Model):
@@ -49,9 +55,3 @@ class Answer(Model):
 
 class Submission(Model):
     problems = OneToOneField('apps.Problems', CASCADE)
-
-
-class InputExample(Model):
-    example = OneToOneField('apps.Example', CASCADE)
-    variable_name = CharField(max_length=255)
-    variable_value = CharField(max_length=255)

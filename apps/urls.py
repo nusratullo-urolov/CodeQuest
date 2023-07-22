@@ -6,6 +6,6 @@ urlpatterns = [
     # path('solution/',solutions,name='solution'),
     path('categories/', categories, name='categories'),
     path('problems/<int:id>',problems,name='problems'),
-    path('problem/<str:title>',problem,name='problem'),
+    path('problem/<int:id>',problem,name='problem'),
     path('', home, name='home')
 ]

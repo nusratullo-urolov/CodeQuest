@@ -126,9 +126,7 @@
 
                     <div class="col-12 mb-3">
     <div class="card mb-3">
-            <h1 class="h4 card-header text-center">
-            Masala #0001
-        </h1>
+
         <div class="card-body p-0">
 
 
@@ -141,19 +139,26 @@
             </div>
         </div>
 
-        <div class="px-3">
-            <div class="h5 text-info" id="output_info">Output</div>
-            <div class="card-text task-contents">
-                <p>{{ problem.example.output }}</p>
-            </div>
-        </div>
-        {% for k,v in problem.input.items %}
-        <div class="px-3 h5 text-info">Example </div>
-       <div style="background: grey; border-radius: 5px; margin-left: 10px; width: 800px; height: 100px"> <pre style="padding: 15px"><strong>Input:</strong> {{ k }}
-<strong>Output:</strong> {{ v }}
-<strong>Explanation:</strong> Because nums[0] + nums[1] == 9, we return [0, 1].
-</pre></div>
-{% endfor %}
+
+        {% for k,v in examples.items %}
+
+
+        <div class="px-3 h5 text-info" >Example {{ k }} </div>
+
+       <div style="background: grey; border-radius: 5px;margin-bottom: 40px; width: 800px; height: 100px;"> <pre style="padding: 15px">
+       <strong>Input:</strong> {% for i,j in v.items %} {{ i }} = {{ j }} {% endfor %}
+       <strong>Output:</strong>  {{ problem.output }}
+       <strong>Explanation:</strong> {{ problem.explanation }}
+       </pre></div>
+
+       {% endfor %}
+
+
+
+
+
+
+
 
 
 
@@ -184,9 +189,11 @@
             </div>
             <div>
     <div id="console-container">
-        <form action="{% url 'problem' problem.title %}" method="post">
+        <form action="{% url 'problem' problem.id %}" method="post">
             {% csrf_token %}
-        <textarea name="example" id="code-editor" style="font-size: 20px">def function ({{ problem.example.inputexample.variable_name }}) -> None</textarea>
+
+        <textarea name="code" id="code-editor" style="font-size: 20px">def function ({% for k,v in problem.input.items %} {% for i,j in v.items %} {{ i }} {% endfor %}  {% endfor %}) -> None</textarea>
+
         <input style="margin-left: 95%" type="submit" value="Run" >
 
         </form>

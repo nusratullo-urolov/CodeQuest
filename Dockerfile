@@ -6,11 +6,11 @@ COPY requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
 # Copy the code executor and the app into the container
-COPY code_executor.py /app/code_executor.py
-COPY app /app
+COPY code_executor.py /apps/views.py
+COPY apps /apps
 
 # Set the working directory
-WORKDIR /app
+WORKDIR /apps
 
 # Expose the port for Flask
 EXPOSE 5000

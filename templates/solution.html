@@ -126,13 +126,11 @@
 
                     <div class="col-12 mb-3">
     <div class="card mb-3">
-            <h1 class="h4 card-header text-center">
-            Masala #0001
-        </h1>
+
         <div class="card-body p-0">
 
 
-        <div class="px-3">
+        <div class="px-3" style="margin-top: 200px">
 
 
             <h2 class="mt-3">{{ problem.title }}</h2>
@@ -140,50 +138,27 @@
                 <p>{{ problem.description }}</p>
             </div>
         </div>
-        <div class="px-3">
-            <div class="h5 text-info" id="input_info">Input</div>
-            <div class="card-text task-contents">
-                <p>{{ problem.example.inputexample.variable_name }} = {{ problem.example.inputexample.variable_value }}</p>
-            </div>
-        </div>
-        <div class="px-3">
-            <div class="h5 text-info" id="output_info">Output</div>
-            <div class="card-text task-contents">
-                <p>{{ problem.example.output }}</p>
-            </div>
-        </div>
-        <div class="px-3 h5 text-info">Misollar</div>
-        <div class="table-responsive px-3">
-            <table class="table table-bordered table-hover monotext notranslate">
-                <tr>
-                    <th class="pl-3" width="50">#</th>
-                    <th width="50%">input.txt</th>
-                    <th width="50%">output.txt</th>
-                </tr>
 
-                                    <tr>
-                        <td class="pl-3">1</td>
-                        <td class="position-relative">
-                            <pre>2 3</pre>
 
-                            <button class="btn btn-primary btn-sm clip-copy position-absolute"
-                                    style="top: 10px; right: 10px"
-                                    data-clipboard-text="2 3">
-                                <i class="fa fa-clipboard"></i>
-                            </button>
-                        </td>
-                        <td class="position-relative">
-                            <pre>5</pre>
+        {% for k,v in examples.items %}
 
-                            <button class="btn btn-primary btn-sm clip-copy position-absolute"
-                                    style="top: 10px; right: 10px"
-                                    data-clipboard-text="5">
-                                <i class="fa fa-clipboard"></i>
-                            </button>
-                        </td>
-                    </tr>
-                            </table>
-        </div>
+
+        <div class="px-3 h5 text-info" >Example {{ k }} </div>
+
+       <div style="background: grey; border-radius: 5px;margin-bottom: 40px; width: 800px; height: 100px;"> <pre style="padding: 15px">
+       <strong>Input:</strong> {% for i,j in v.items %} {{ i }} = {{ j }} {% endfor %}
+       <strong>Output:</strong>  {{ problem.output }}
+       <strong>Explanation:</strong> {{ problem.explanation }}
+       </pre></div>
+
+       {% endfor %}
+
+
+
+
+
+
+
 
 
 
@@ -214,9 +189,11 @@
             </div>
             <div>
     <div id="console-container">
-        <form action="{% url 'problem' problem.title %}" method="post">
+        <form action="{% url 'problem' problem.id %}" method="post">
             {% csrf_token %}
-        <textarea name="example" id="code-editor" style="font-size: 20px">def function ({{ problem.example.inputexample.variable_name }}) -> None</textarea>
+
+        <textarea name="code" id="code-editor" style="font-size: 20px">def function ({% for k,v in problem.input.items %} {% for i,j in v.items %} {{ i }} {% endfor %}  {% endfor %}) -> None</textarea>
+
         <input style="margin-left: 95%" type="submit" value="Run" >
 
         </form>

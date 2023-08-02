@@ -1,7 +1,7 @@
 import json
 
 from django.db.models import Model, TextChoices, CharField, IntegerField, ForeignKey, CASCADE, BooleanField, \
-    DateTimeField, SlugField, OneToOneField, JSONField
+    DateTimeField, SlugField, OneToOneField, JSONField, AutoField
 from django.utils.text import slugify
 
 
@@ -53,3 +53,13 @@ class Answer(Model):
 
 class Submission(Model):
     problems = OneToOneField('apps.Problems', CASCADE)
+
+
+
+class Task(Model):
+    id = AutoField(primary_key=True)
+    title = CharField(max_length=100)
+    complete = BooleanField(default=False)
+
+    def str(self):
+        return self.title

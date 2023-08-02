@@ -3,8 +3,8 @@ from django.urls import path
 from django.urls import path
 
 from apps import views
-from apps.views import home, categories, problems, problem, about, add, update, delete, homee
-from apps.views import home, categories, problems, problem, submission
+from apps.views import home, categories, problems, problem
+from apps.views import home, categories, problems, problem, submission, homee, add, update, delete,about
 from root import settings
 
 urlpatterns = [

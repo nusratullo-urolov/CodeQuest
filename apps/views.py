@@ -1,8 +1,9 @@
 import itertools
 
-from django.shortcuts import render, get_list_or_404, get_object_or_404
+from django.http import HttpResponse
+from django.shortcuts import render, get_list_or_404, get_object_or_404, redirect
 
-from apps.models import Category, Problems
+from apps.models import Category, Problems, Task
 from apps.services import run_python_code, get_actual_type
 
 
@@ -59,4 +60,31 @@ def problem(request, id):
 def submission(request, id):
     return render(request, 'submission.html')
 
+def about(request):
+    return render(request, 'about.html')
 
+def homee(request):
+    todos = Task.objects.all()
+    return render(request, "task/index.html", {"todo_list": todos, })
+
+
+def add(request):
+    if request.method == "POST":
+        title = request.POST.get("title")
+        new_todo = Task.objects.create(title=title)
+        return redirect("todo")
+    else:
+        return HttpResponse("Method not allowed", status=405)
+
+
+def update(request, todo_id):
+    todo = Task.objects.get(id=todo_id)
+    todo.complete = not todo.complete
+    todo.save()
+    return redirect("todo")
+
+
+def delete(request, todo_id):
+    todo = Task.objects.get(id=todo_id)
+    todo.delete()
+    return redirect("todo")

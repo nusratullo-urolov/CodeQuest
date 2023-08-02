@@ -105,3 +105,6 @@ def reset_password(request):
 
 def send_message(request):
     return render(request,'auth/message.html')
+
+
+

@@ -1,8 +1,7 @@
 from django.contrib import admin
-from django.contrib.admin import ModelAdmin, StackedInline
-from django.contrib.postgres.fields import ArrayField
+from django.contrib.admin import ModelAdmin
 
-from apps.models import Category, Answer, Problems
+from apps.models import Category, Answer, Problems, Task
 
 
 @admin.register(Category)
@@ -21,3 +20,6 @@ class CategoryModelAdmin(ModelAdmin):
 @admin.register(Answer)
 class CategoryModelAdmin(ModelAdmin):
     pass
+
+
+admin.site.register(Task)

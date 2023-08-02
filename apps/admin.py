@@ -1,7 +1,7 @@
 from django.contrib import admin
-from django.contrib.admin import ModelAdmin
+from django.contrib.admin import ModelAdmin, StackedInline
 
-from apps.models import Category, Answer, Problems, Task
+from apps.models import Category, Answer, Problems
 
 
 @admin.register(Category)
@@ -12,14 +12,8 @@ class CategoryModelAdmin(ModelAdmin):
 @admin.register(Problems)
 class CategoryModelAdmin(ModelAdmin):
     pass
-    # formfield_overrides = {
-    #     ArrayField: {'widget': admin.widgets.AdminTextInputWidget},
-    # }
 
 
 @admin.register(Answer)
 class CategoryModelAdmin(ModelAdmin):
     pass
-
-
-admin.site.register(Task)

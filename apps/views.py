@@ -1,7 +1,9 @@
-from django.http import HttpResponse
-from django.shortcuts import render, get_list_or_404, get_object_or_404, redirect
+import itertools
 
-from apps.models import Category, Problems, Task
+from django.shortcuts import render, get_list_or_404, get_object_or_404
+
+from apps.models import Category, Problems
+from apps.services import run_python_code, get_actual_type
 
 
 def home(request):
@@ -24,48 +26,37 @@ def problems(request, id):
     return render(request, 'problems.html', context)
 
 
-def problem(request, title):
-    problem = get_object_or_404(Problems, title=title)
+def problem(request, id):
+    problem = get_object_or_404(Problems, id=id)
     if request.method == 'POST':
-        post = request.POST['example']
-        result = post.split("(")[1].split(")")[0]
-        try:
-            result = eval(result)
-        except Exception as e:
-            result = e
-        context = {
-            'result': result
-        }
-        return render(request, 'solution.html', context=context)
-    return render(request, 'solution.html', context={'problem': problem})
+        code_input = request.POST['code']
+        python_output, execution_time, memory_usage = run_python_code(code_input, 5)
+        value, actual_type = get_actual_type(python_output)
+        problem_value, problem_type = get_actual_type(problem.output)
+        if value == problem_value:
+            context = {
+                'result': 'access',
+                'value': value,
+                'time': execution_time,
+                'memory': memory_usage
+            }
+        else:
+            context = {
+                'result': 'error',
+                'value': value
+            }
+        return render(request, 'solution.html',
+                      {'problem': problem, 'result': context, 'value': value, 'time': execution_time,
+                       'memory': memory_usage})
+    # context = {
+    #     'problem': problem,
+    #
+    # }
+    examples = dict(itertools.islice(problem.input.items(), 3))
+    return render(request, 'solution.html', {"problem": problem, "examples": examples})
 
 
-def about(request):
-    return render(request, 'about.html')
+def submission(request, id):
+    return render(request, 'submission.html')
 
 
-def homee(request):
-    todos = Task.objects.all()
-    return render(request, "task/index.html", {"todo_list": todos, })
-
-
-def add(request):
-    if request.method == "POST":
-        title = request.POST.get("title")
-        new_todo = Task.objects.create(title=title)
-        return redirect("todo")
-    else:
-        return HttpResponse("Method not allowed", status=405)
-
-
-def update(request, todo_id):
-    todo = Task.objects.get(id=todo_id)
-    todo.complete = not todo.complete
-    todo.save()
-    return redirect("todo")
-
-
-def delete(request, todo_id):
-    todo = Task.objects.get(id=todo_id)
-    todo.delete()
-    return redirect("todo")

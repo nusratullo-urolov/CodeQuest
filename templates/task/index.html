@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TODO</title>
+    <title>Todo of the user</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
 </head>
 <body>
-<section class="vh-100" style="background-color: #eee;">
+<section class="vh-100" style="background-color: #fefefe;">
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col col-lg-9 col-xl-7">
                 <div class="card rounded-3">
                     <div class="card-body p-4">
-                        <h4 class="text-center my-3 pb-3">Welcome {{ user.name }}. Hello! What are the plans for
+                        <h4 class="text-center my-3 pb-3">Welcome {{ request.user }} Hello! What are the plans for
                             today?</h4>
                         <form class="row" action="add" method="post">{% csrf_token %}
                             <div class="col-4">
@@ -70,16 +70,3 @@
 </section>
 </body>
 </html>
-
-
-<style>
-    body {
-        background-color: rgb(232, 112, 34);
-        color: rgba(0,190,27,0.91);
-        font-size: 12px;
-    }
-
-    a {
-        color: rgb(215, 215, 34);
-    }
-</style>

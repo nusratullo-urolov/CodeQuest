@@ -1,11 +1,6 @@
-from django.conf.urls.static import static
-from django.urls import path
 from django.urls import path
 
-from apps import views
-from apps.views import home, categories, problems, problem
-from apps.views import home, categories, problems, problem, submission, homee, add, update, delete,about
-from root import settings
+from apps.views import home, categories, problems, problem, homee, add, update, delete, about
 
 urlpatterns = [
     path('todo', homee, name='todo'),

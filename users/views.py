@@ -46,7 +46,7 @@ def register_view(request):
         forms = RegisterForm(request.POST)
         if forms.is_valid():
             forms.save()
-            send_email.delay(request, forms.data.get('email'), type_='register')
+            send_email(request, forms.data.get('email'), type_='register')
             return redirect('message')
         else:
             context['errors'] = forms.errors

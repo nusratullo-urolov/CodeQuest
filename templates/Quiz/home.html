@@ -1,0 +1,79 @@
+{% extends 'Quiz/dependencies.html' %}
+
+{% block content %}
+{% load static %}
+<div class="container">
+    <h1>Welcome to CodeQuest Quizzes</h1>
+
+    <div align="right" id="displaytimer"><b>Timer: 100 seconds</b></div>
+
+    <form method='post' action=''>
+        {% csrf_token %}
+        {% for q in questions %}
+        <div class="form-group">
+            <label for="question">{{ q.question }}</label>
+        </div>
+        <div class="form-check">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="{{ q.question }}" id="gridRadios1" value="option1"
+                    checked>
+                <label class="form-check-label" for="gridRadios1">
+                    {{ q.op1 }}
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="{{ q.question }}" id="gridRadios2" value="option2">
+                <label class="form-check-label" for="gridRadios2">
+                    {{ q.op2 }}
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="{{ q.question }}" id="gridRadios1" value="option3">
+                <label class="form-check-label" for="gridRadios1">
+                    {{ q.op3 }}
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="{{ q.question }}" id="gridRadios2" value="option4">
+                <label class="form-check-label" for="gridRadios2">
+                    {{ q.op4 }}
+                </label>
+            </div>
+            <br>
+        </div>
+        {% endfor %}
+
+        <!-- Hidden input to hold the timer value -->
+        <input id='timer' type='hidden' name="timer" value="100">
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    {% block script %}
+    <script>
+        // Function to start the timer
+        function startTimer() {
+            let timer = 100; // 100 seconds
+            const timerElement = document.getElementById('displaytimer');
+            const inputTag = document.getElementById('timer');
+
+            let interval = setInterval(function () {
+                timer--;
+                if (timer < 0) {
+                    clearInterval(interval);
+                    document.querySelector('form').submit(); // Automatically submit the form when the timer ends
+                } else {
+                    timerElement.innerHTML = "<b>Timer: " + timer + " seconds</b>";
+                    inputTag.value = timer;
+                }
+            }, 1000);
+        }
+
+        // Start the timer when the page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            startTimer();
+        });
+    </script>
+    {% endblock script %}
+</div>
+{% endblock %}

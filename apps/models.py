@@ -30,7 +30,6 @@ class Problems(Model):
     description = CharField(max_length=500)
     type = CharField(max_length=6, choices=Difficulty.choices)
     category = ForeignKey('apps.Category', CASCADE)
-    input = JSONField()
     output = CharField(max_length=255)
     explanation = CharField(max_length=255, blank=True, null=True)
     created_at = DateTimeField(auto_now_add=True)

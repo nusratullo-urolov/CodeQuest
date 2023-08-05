@@ -1,2 +1,0 @@
-docker build -t python_code_executor .
-docker run -p 5000:5000 python_code_executor

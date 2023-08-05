@@ -1,12 +1,7 @@
-import json
+from django.db.models import Model, TextChoices, CharField, ForeignKey, CASCADE, BooleanField, \
+    DateTimeField, OneToOneField, JSONField, AutoField
 
-from django.contrib.postgres.fields import ArrayField
-from django.db.models import Model, TextChoices, CharField, IntegerField, ForeignKey, CASCADE, BooleanField, \
-    DateTimeField, SlugField, OneToOneField, JSONField
-from django.utils.text import slugify
-
-
-
+from users.models import User
 
 
 class Category(Model):
@@ -22,6 +17,15 @@ class Problems(Model):
         MEDIUM = 'medium', 'Medium',
         HARD = 'hard', 'Hard'
 
+    class DataType(TextChoices):
+        INT = 'int', 'Int',
+        STR = 'str', 'Str',
+        LIST = 'list', 'List',
+        BOOL = 'bool', 'Bool',
+        FLOAT = 'float', 'Float',
+        DICT = 'dict', 'Dict',
+        SET = 'set', 'Set',
+
     title = CharField(max_length=255, unique=True)
     description = CharField(max_length=500)
     type = CharField(max_length=6, choices=Difficulty.choices)
@@ -31,14 +35,14 @@ class Problems(Model):
     explanation = CharField(max_length=255, blank=True, null=True)
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
+    data_type = CharField(max_length=15, choices=DataType.choices, blank=True, null=True)
 
     def __str__(self):
         return self.title
 
-
     # def get_example(self):
-        # for k,v in Problems.objects.filter()
-            # return
+    # for k,v in Problems.objects.filter()
+    # return
 
 
 class Answer(Model):
@@ -48,3 +52,13 @@ class Answer(Model):
 
 class Submission(Model):
     problems = OneToOneField('apps.Problems', CASCADE)
+
+
+class Task(Model):
+    id = AutoField(primary_key=True)
+    title = CharField(max_length=100)
+    complete = BooleanField(default=False)
+    user = ForeignKey(User, on_delete=CASCADE)
+
+    def str(self):
+        return self.title

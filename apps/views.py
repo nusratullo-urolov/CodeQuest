@@ -1,8 +1,10 @@
 import itertools
 
-from django.shortcuts import render, get_list_or_404, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_list_or_404, get_object_or_404, redirect
 
-from apps.models import Category, Problems
+from apps.models import Category, Problems, Task
+from apps.services import run_python_code, get_actual_type
 
 
 def home(request):
@@ -25,48 +27,71 @@ def problems(request, id):
     return render(request, 'problems.html', context)
 
 
-# def problem(request, title):
-#     problem = get_object_or_404(Problems, title=title)
-#     if request.method == 'POST':
-#         post = request.POST['example']
-#         result = post.split("(")[1].split(")")[0]
-#         try:
-#             result = eval(result)
-#         except Exception as e:
-#             result = e
-#         context = {
-#             'result': result
-#         }
-#         return render(request, 'solution.html', context=context)
-#     return render(request, 'solution.html',context={'problem' : problem})
-
-
-def problem(request,id):
-    problem = get_object_or_404(Problems,id=id)
+def problem(request, id):
+    problem = get_object_or_404(Problems, id=id)
     if request.method == 'POST':
         code_input = request.POST['code']
-        output = execute_code(code_input)
-        context = {
-            'output': output
-        }
-        return render(request, 'solution.html',context )
-    context = {
-        'problem': problem
-    }
-    from itertools import islice
-    # for k,v in problem.input.items():
-    examples = dict(itertools.islice(problem.input.items(),3))
+        python_output, execution_time, memory_usage = run_python_code(code_input, 5)
+        value, actual_type = get_actual_type(python_output)
+        problem_value, problem_type = get_actual_type(problem.output)
+        if value == problem_value:
+            context = {
+                'result': 'access',
+                'value': value,
+                'time': execution_time,
+                'memory': memory_usage
+            }
+        else:
+            context = {
+                'result': 'error',
+                'value': value
+            }
+        return render(request, 'solution.html',
+                      {'problem': problem, 'result': context, 'value': value, 'time': execution_time,
+                       'memory': memory_usage})
+    # context = {
+    #     'problem': problem,
+    #
+    # }
+    examples = dict(itertools.islice(problem.input.items(), 3))
     return render(request, 'solution.html', {"problem": problem, "examples": examples})
 
 
+def submission(request, id):
+    return render(request, 'submission.html')
 
 
+def about(request):
+    return render(request, 'about.html')
 
 
-def execute_code(code_input):
-    try:
-        exec_result = {}
-        exec(code_input, {}, exec_result)
-        return str(exec_result)
-    except Exception as e:
-        return str(e)
+@login_required(login_url='login')
+def homee(request):
+    todos = Task.objects.filter(user=request.user)
+    return render(request, "task/index.html", {"todo_list": todos, })
+
+
+@login_required
+def add(request):
+    if request.method == 'POST':
+        title = request.POST['title']
+        task = Task(title=title, user=request.user)
+        task.save()
+        return redirect('todo')
+    else:
+        return render(request, 'index.html')
+
+
+@login_required
+def update(request, todo_id):
+    todo = Task.objects.get(id=todo_id)
+    todo.complete = not todo.complete
+    todo.save()
+    return redirect("todo")
+
+
+@login_required
+def delete(request, todo_id):
+    todo = Task.objects.get(id=todo_id)
+    todo.delete()
+    return redirect("todo")

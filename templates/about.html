@@ -2,24 +2,58 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <h1 style="font-size:5vb">About Us</h1>
-    <p>Welcome to our "CodeQuest" site! Our site offers
-        a variety of quests and challenges for all skill levels, ranging from easy to expert.</p>
+    <title>About Us</title>
+    <style>
+        h1 {
+            font-size: 5vb;
+            animation: color-change 5s infinite;
+        }
 
+        @keyframes color-change {
+            0% {
+                color: rgb(229, 21, 21);
+            }
+            50% {
+                color: rgb(242, 227, 74);
+            }
+            75% {
+                color: rgba(103, 204, 191, 0.83);
+            }
+            100% {
+                color: rgb(255, 111, 111);
+            }
+        }
+
+        p {
+            color: rgba(255, 255, 255, 0.83);
+            font-size: 1.3em;
+            animation: fade-in 2s ease-in-out;
+        }
+
+        @keyframes fade-in {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to bottom, #00ffcc, #ff99cc, #ffcc00, #00ff99);
+        }
+    </style>
 </head>
-<body>
+<body style="background: #0a53be">
+<h1>About Us</h1>
+<p>Welcome to CodeQuest, the ultimate destination for aspiring adventurers in the world of coding and problem-solving!
+    Step into a realm filled with thrilling quests, mind-bending challenges, and endless opportunities for growth!</p>
 </body>
 </html>
-
-<style>
-    body {
-        background-color: rgb(20, 40, 60);
-        color: rgb(240, 248, 255);
-        font-size: 1.3em;
-    }
-
-    a {
-        color: rgb(255, 111, 111);
-    }
-</style>
-

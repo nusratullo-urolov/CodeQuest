@@ -1,5 +1,6 @@
 import itertools
 
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, get_list_or_404, get_object_or_404, redirect
 
@@ -95,11 +96,13 @@ def about(request):
     return render(request, 'about.html')
 
 
+@login_required(login_url='login')
 def homee(request):
     todos = Task.objects.all()
     return render(request, "task/index.html", {"todo_list": todos, })
 
 
+@login_required
 def add(request):
     if request.method == "POST":
         title = request.POST.get("title")
@@ -109,6 +112,7 @@ def add(request):
         return HttpResponse("Method not allowed", status=405)
 
 
+@login_required
 def update(request, todo_id):
     todo = Task.objects.get(id=todo_id)
     todo.complete = not todo.complete
@@ -116,6 +120,7 @@ def update(request, todo_id):
     return redirect("todo")
 
 
+@login_required
 def delete(request, todo_id):
     todo = Task.objects.get(id=todo_id)
     todo.delete()

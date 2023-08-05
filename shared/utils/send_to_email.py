@@ -1,4 +1,4 @@
-from celery import shared_task
+# from celery import shared_task
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
@@ -8,9 +8,10 @@ from django.utils.http import urlsafe_base64_encode
 from root.settings import EMAIL_HOST_USER
 from users.models import User
 from users.utils.token import account_activation_token
+# from celery import shared_task
 
-@shared_task
-def send_email(request, email: str, type_):
+
+def send_email(request, email, type_):
     user = get_object_or_404(User, email=email)
     subject = 'Activate your account'
     current_site = get_current_site(request)
@@ -34,3 +35,8 @@ def send_email(request, email: str, type_):
         })
         result = send_mail(subject, message, from_email, recipient_list)
         print('Send To Restet Mail')
+
+
+# @shared_task
+# def calculate(x, y):
+#     print(x + y)

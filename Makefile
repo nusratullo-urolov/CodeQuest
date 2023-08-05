@@ -9,4 +9,5 @@ run:
 	python3 manage.py runserver
 
 
-#9860 0301 9352 7477
+celery:
+	celery --app root worker --loglevel=info

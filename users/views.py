@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils.encoding import force_str
@@ -98,6 +98,10 @@ def forgot_activate_email(request, uid, token):
     else:
         return HttpResponse('Activate link is expired')
 
+
+def log_out(request):
+    logout(request)
+    return redirect('home')
 
 def reset_password(request):
     return render(request, 'auth/reset-password.html')

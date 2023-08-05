@@ -28,7 +28,9 @@ INSTALLED_APPS = [
     #
     # "crispy_forms",
     'users.apps.UsersConfig',
-    'shared.apps.SharedConfig'
+    'shared.apps.SharedConfig',
+
+    # 'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -120,6 +122,14 @@ EMAIL_HOST_USER = 'nusratullo3304@gmail.com'
 EMAIL_HOST_PASSWORD = 'oujwydeyqgyjoitb'
 EMAIL_USE_TLS = True
 
-CELERY_BROKER_URL = os.getenv('CELERY_BROKER')
+
+CELERY_BROKER_URL = 'amqp://localhost'
+CELERY_SEND_TASK_SENT_EVENT = True,
+CELERY_TASK_SERIALIZER = 'pickle',
+CELERY_RESULT_SERIALIZER = 'pickle',
+CELERY_ACCEPT_CONTENT = ['pickle', 'json'],
+
+CELERY_TIMEZONE = 'Asia/Tashkent'
+CELERY_BEAT_SCHEDULE = {}
 
 AUTH_USER_MODEL = 'users.user'

@@ -1,7 +1,8 @@
-from django.urls import path, include
+from django.conf.urls.static import static
+from django.urls import path
 
-from apps.views import home, categories, problems, problem
-from apps.views import home, categories, problems, problem, homee, add, update, delete, about
+from apps.views import home, categories, problems, problem, submission, homee, add, update, delete, about
+from root import settings
 
 urlpatterns = [
     path('todo', homee, name='todo'),
@@ -15,7 +16,6 @@ urlpatterns = [
     path('problems/<int:id>', problems, name='problems'),
     path('problem/<int:id>', problem, name='problem'),
     path('', home, name='home'),
-    path('problems/<int:id>', problems, name='problems'),
-    path('problem/<str:title>', problem, name='problem'),
-    path('', home, name='home'),
+    path('problem/<int:id>/submission', submission, name='submission'),
+
 ]

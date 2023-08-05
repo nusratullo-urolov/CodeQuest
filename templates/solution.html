@@ -141,18 +141,21 @@
         </div>
 
 
-        {% for k,v in examples.items %}
 
 
+
+       {% for i in problem.example.all %}
         <div class="px-3 h5 text-info" >Example {{ k }} </div>
-
        <div style="background: grey; border-radius: 5px;margin-bottom: 40px; width: 800px; height: 100px;"> <pre style="padding: 15px">
-       <strong>Input:</strong> {% for i,j in v.items %} {{ i }} = {{ j }} {% endfor %}
-       <strong>Output:</strong>  {{ problem.output }}
-       <strong>Explanation:</strong> {{ problem.explanation }}
-       </pre></div>
+       <strong>Input:</strong>{% for j in i.variable_value.all %}  {{ j.variable }} = {{ j.value }}{% endfor %}
+       <strong>Output:</strong> {{ i.output }}
+       <strong>Explanation: {{ i.explanation }} </strong></pre></div>
+        {% endfor %}
 
-       {% endfor %}
+
+
+
+
 
 
 
@@ -193,9 +196,12 @@
         <form {% if user.is_authenticated %} action="{% url 'problem' problem.id %}" method="post"{% else %} action="{% url 'login' %}" method="get"{% endif %}>
             {% csrf_token %}
 
-        <textarea name="code" id="code-editor" style="font-size: 20px"></textarea>
-{#        def function ({% for k,v in problem.input.items %} {% for i,j in v.items %} {{ i }} {% endfor %} #}
-{#         {% endfor %}) -> {{ problem.data_type }}#}
+
+        <textarea name="code" id="code-editor" style="font-size: 20px">def function ({{problem.example.first.variable_value.first.variable }}: {{ problem_type }}) -> {{ problem.returning_type }} :
+
+        return</textarea>
+
+
 
 
         <input style="margin-left: 95%" type="submit" value="Run" >
@@ -206,10 +212,12 @@
     <pre id="console-output">
     {% for k,v in result.items %}
     {% if v == 'access' %}
-        <span style="color: rgb(44 187 93/var(--tw-text-opacity)); font-weight: 500; font-size: 1.25rem;line-height: 1.75rem; --tw-text-opacity: 1; ">{{ 'Access' }}</span> <span style="margin-left: 1rem;">Runtime: {{ time }} ms</span>
-        <span>output: {{ value }}</span>
-        <span>expected: {{ problem.output }}</span>
-        <span>memory_usage: {{ memory }} kb</span>
+    result          time                memory                       language
+    <span style="color: rgb(44 187 93/var(--tw-text-opacity)); font-weight: 500; font-size: 1.25rem;line-height: 1.75rem; --tw-text-opacity: 1; ">{{ 'Access' }}</span> <span style="margin-left: 1rem;"></span>   <span>Runtime: {{ time }} ms</span>      <span>memory_usage: {{ memory }} kb</span>          python3
+
+
+
+
 
 
 
@@ -217,10 +225,11 @@
 
 
     {% elif v == 'error' %}
-        <span style="color: rgb(239 71 67/var(--tw-text-opacity));  font-weight: 500; font-size: 1.25rem;line-height: 1.75rem; --tw-text-opacity: 1; ">{{ 'Wrong Answer' }}</span> <span style="margin-left: 1rem;">Runtime: {{ time }} ms</span>
-        <span style="font-size: 15px; margin-top: 15px">Output</span>
-        <div style="background: grey; border-radius: 5px;margin-bottom: 40px; margin-left: 55px; width: 100%; height: 50px;"> <pre style="padding: 15px"> <span style="    --tw-text-opacity: 1;    font-family: Menlo,sans-serif; word-break: break-all; white-space: pre-wrap;">{{ value }}</span></pre></div>
-        <span>expected: {{ problem.output }}</span>
+        <span style="font-size: 15px">Result              Time         Memory              Expected             Output</span>
+        <span style="color: rgb(239 71 67/var(--tw-text-opacity));  font-weight: 500; font-size: 1.25rem;line-height: 1.75rem; --tw-text-opacity: 1; ">{{ 'Wrong Answer' }}</span> <span style="margin-left: 1rem;">  {{ time }} ms        </span> <span> {{ memory }} kb</span>                 <span> {{ expected }}</span>           <span> {{ value }}</span>
+
+
+
 
 
 

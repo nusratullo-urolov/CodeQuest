@@ -65,8 +65,8 @@ class Task(Model):
 
 
 class Submission(Model):
-    problem = OneToOneField('apps.Problems', CASCADE)
-    user = ForeignKey(User, CASCADE)
+    problem = ForeignKey('apps.Problems',CASCADE, null=True, blank=True)
+    user = ForeignKey(User, CASCADE, null=True, blank=True)
     answer = TextField()
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)

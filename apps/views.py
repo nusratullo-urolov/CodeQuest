@@ -125,3 +125,8 @@ def delete(request, todo_id):
     todo = Task.objects.get(id=todo_id)
     todo.delete()
     return redirect("todo")
+
+
+
+def function(request):
+    return render(request, 'test_core.html')

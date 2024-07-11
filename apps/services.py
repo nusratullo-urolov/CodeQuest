@@ -15,16 +15,6 @@ def run_python_code(python_code,function, timeout):
             file.write(python_code)
             file.write(function)
 
-        # with open('temp.py', 'a') as file:
-        #     file.write(function)
-
-        # with open('temp.py', 'a') as file:
-        #     l = ''
-        #     for i in problem.example.all():
-        #         for j in i.variable_value.all():
-        #             l += j.value + ' ' + ','
-        #     file.write(f'\nprint(function())')
-
         start_time = time.time()
         process = subprocess.Popen(['/var/www/codequest/venv/bin/python', 'temp.py'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 

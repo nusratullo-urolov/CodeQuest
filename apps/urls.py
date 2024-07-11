@@ -1,7 +1,7 @@
 from django.conf.urls.static import static
 from django.urls import path
 
-from apps.views import home, categories, problems, problem, submission, homee, add, update, delete, about
+from apps.views import home, categories, problems, problem, submission, homee, add, update, delete, about, function
 from root import settings
 
 urlpatterns = [
@@ -17,5 +17,6 @@ urlpatterns = [
     path('problem/<int:id>', problem, name='problem'),
     path('', home, name='home'),
     path('problem/<int:id>/submission', submission, name='submission'),
+    path('function',function, name='function')
 
 ]

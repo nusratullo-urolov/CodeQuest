@@ -38,8 +38,16 @@ def problem(request, id):
         for i in problem.example.all():
             problem_output = i.output
             a = i.variable_value.values()
+
+            j = None  # Initialize j to prevent unbound local variable error
+
             for i in a:
-                j = i['value']
+                j = i['value']  # Set j to the last value in the loop
+
+            # Ensure j has a value
+            if not j:
+                return render(request, 'solution.html', {'error': 'No variable value found to test'})
+
             code_input = request.POST['code']
             function = f'\nprint(function({j}))'
             python_output, execution_time, memory_usage = run_python_code(code_input, function, 5)
@@ -47,10 +55,10 @@ def problem(request, id):
             j, find_type_variable = get_actual_type(j)
             print(find_type_variable)
             problem_value, problem_type = get_actual_type(problem_output)
+
             if value == problem_value:
                 c += 1
             else:
-                print(f'wrong answer in {value}')
                 context = {
                     'result': 'error',
                     'value': value
@@ -59,8 +67,8 @@ def problem(request, id):
                 return render(request, 'solution.html',
                               {'problem': problem, 'result': context, 'value': value, 'time': execution_time,
                                'memory': memory_usage, 'expected': problem_value, 'problem_type': find_type_variable})
+
             if c == len(problem.example.all()):
-                print('success answer')
                 context = {
                     'result': 'access',
                     'value': value,
@@ -74,14 +82,23 @@ def problem(request, id):
                 return render(request, 'solution.html',
                               {'problem': problem, 'result': context, 'value': value, 'time': execution_time,
                                'memory': memory_usage, 'expected': problem_value})
+
     for i in problem.example.all():
         problem_output = i.output
         a = i.variable_value.values()
+
+        j = None  # Initialize j
         for i in a:
             j = i['value']
+
+    # Ensure j has a value before calling get_actual_type
+    if not j:
+        return render(request, 'solution.html', {'error': 'No variable value found to test'})
+
     j, find_type_variable = get_actual_type(j)
     problem.view_count += 1
     problem.save()
+
     return render(request, 'solution.html', {"problem": problem, 'problem_type': find_type_variable})
 
 

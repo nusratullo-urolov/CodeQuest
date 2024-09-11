@@ -33,27 +33,34 @@ def problems(request, id):
 
 def problem(request, id):
     problem = get_object_or_404(Problems, id=id)
+
     if request.method == 'POST':
         c = 0
-        for i in problem.example.all():
-            problem_output = i.output
-            a = i.variable_value.values()
+        for example in problem.example.all():
+            problem_output = example.output
+            variable_values = example.variable_value.values()
 
-            j = None  # Initialize j to prevent unbound local variable error
+            # Initialize j with a default value like None
+            j = None
 
-            for i in a:
-                j = i['value']  # Set j to the last value in the loop
+            # Check if variable_values is empty
+            if not variable_values:
+                return render(request, 'solution.html', {'error': 'No variable values found to test'})
 
-            # Ensure j has a value
-            if not j:
-                return render(request, 'solution.html', {'error': 'No variable value found to test'})
+            # Loop through the variable_values and assign j
+            for variable in variable_values:
+                j = variable.get('value', None)  # Safely access 'value' key
 
+            # Ensure j has been assigned a valid value
+            if j is None:
+                return render(request, 'solution.html', {'error': 'No valid variable value found to test'})
+
+            # Now continue with the code execution
             code_input = request.POST['code']
             function = f'\nprint(function({j}))'
             python_output, execution_time, memory_usage = run_python_code(code_input, function, 5)
             value, actual_type = get_actual_type(python_output)
             j, find_type_variable = get_actual_type(j)
-            print(find_type_variable)
             problem_value, problem_type = get_actual_type(problem_output)
 
             if value == problem_value:
@@ -64,36 +71,55 @@ def problem(request, id):
                     'value': value
                 }
 
-                return render(request, 'solution.html',
-                              {'problem': problem, 'result': context, 'value': value, 'time': execution_time,
-                               'memory': memory_usage, 'expected': problem_value, 'problem_type': find_type_variable})
-
-            if c == len(problem.example.all()):
-                context = {
-                    'result': 'access',
+                return render(request, 'solution.html', {
+                    'problem': problem,
+                    'result': context,
                     'value': value,
                     'time': execution_time,
-                    'memory': memory_usage
-                }
-                Submission.objects.create(
-                    problem_id=problem.id,
-                    user_id=request.user.id,
-                    answer=code_input)
-                return render(request, 'solution.html',
-                              {'problem': problem, 'result': context, 'value': value, 'time': execution_time,
-                               'memory': memory_usage, 'expected': problem_value})
+                    'memory': memory_usage,
+                    'expected': problem_value,
+                    'problem_type': find_type_variable
+                })
 
-    for i in problem.example.all():
-        problem_output = i.output
-        a = i.variable_value.values()
+        # Success case if all examples are correct
+        if c == len(problem.example.all()):
+            context = {
+                'result': 'access',
+                'value': value,
+                'time': execution_time,
+                'memory': memory_usage
+            }
+            Submission.objects.create(
+                problem_id=problem.id,
+                user_id=request.user.id,
+                answer=code_input
+            )
+            return render(request, 'solution.html', {
+                'problem': problem,
+                'result': context,
+                'value': value,
+                'time': execution_time,
+                'memory': memory_usage,
+                'expected': problem_value
+            })
+
+    # Handle GET requests or when no POST is made
+    for example in problem.example.all():
+        problem_output = example.output
+        variable_values = example.variable_value.values()
 
         j = None  # Initialize j
-        for i in a:
-            j = i['value']
 
-    # Ensure j has a value before calling get_actual_type
-    if not j:
-        return render(request, 'solution.html', {'error': 'No variable value found to test'})
+        # Check if variable_values is empty
+        if not variable_values:
+            return render(request, 'solution.html', {'error': 'No variable values found to test'})
+
+        for variable in variable_values:
+            j = variable.get('value', None)
+
+    # Ensure j has been assigned a valid value
+    if j is None:
+        return render(request, 'solution.html', {'error': 'No valid variable value found to test'})
 
     j, find_type_variable = get_actual_type(j)
     problem.view_count += 1

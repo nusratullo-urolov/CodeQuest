@@ -16,7 +16,7 @@ def run_python_code(python_code,function, timeout):
             file.write(function)
 
         start_time = time.time()
-        process = subprocess.Popen(['/var/www/codequest/venv/bin/python', 'temp.py'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        process = subprocess.Popen(['/var/www/CodeQuest/venv/bin/python', 'temp.py'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         stdout, stderr = process.communicate(timeout=timeout)
 
